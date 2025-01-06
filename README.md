@@ -25,6 +25,8 @@ Liczba n=36.
 	- Dzielniki 36 to 1,2,3,4,6,9,12,18,36
  
 	- Wystarczy sprawdzić dzielniki do 66, aby wykryć, że liczba jest złożona.
+
+
  
  
 ### Algorytm krok po kroku
@@ -122,6 +124,43 @@ Dla każdego dzielnika d1 istnieje d2  taki że d1 × d2 = n.
 Jeśli d1 > √n, to d2 < √n. Dlatego wystarczy sprawdzić dzielniki do **√n**.
 
  ---
+
+## Przykłady implementacji (Python)
+Badanie pierwszości:
+```python
+def is_prime(n):
+    if n <= 1:
+        return False
+    if n <= 3:
+        return True
+    if n % 2 == 0 or n % 3 == 0:
+        return False
+    i = 5
+    while i * i <= n:
+        if n % i == 0 or n % (i + 2) == 0:
+            return False
+        i += 6
+    return True
+```
+
+Rozkład na czynniki pierwsze:
+```python
+def prime_factors(n):
+    factors = []
+    # Sprawdzanie dzielnika 2
+    while n % 2 == 0:
+        factors.append(2)
+        n //= 2
+    # Sprawdzanie kolejnych dzielników
+    for i in range(3, int(n**0.5) + 1, 2):
+        while n % i == 0:
+            factors.append(i)
+            n //= i
+    # Jeśli pozostała wartość jest liczbą pierwszą
+    if n > 1:
+        factors.append(n)
+    return factors
+```
 
 ### 6. Podsumowanie
 Opisane algorytmy są efektywne, proste w implementacji i mają szerokie zastosowanie w praktyce. Ich złożoność O(√n) czyni je idealnymi dla większości przypadków użycia, gdzie liczba n jest relatywnie niewielka. Dla dużych liczb, np. w kryptografii, stosuje się bardziej zaawansowane metody, takie jak testy probabilistyczne i algorytmy faktoryzacji.
