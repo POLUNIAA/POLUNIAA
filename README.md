@@ -24,7 +24,7 @@ Liczba n=36.
  
 	- Dzielniki 36 to 1,2,3,4,6,9,12,18,36
  
-	- Wystarczy sprawdzić dzielniki do 66, aby wykryć, że liczba jest złożona.
+	- Wystarczy sprawdzić dzielniki do 6, aby wykryć, że liczba jest złożona.
 
 
  
@@ -37,9 +37,8 @@ Jeśli n = 2 lub n = 3, to liczba jest pierwsza (są to najmniejsze liczby pierw
  
 Sprawdzamy, czy n jest podzielne przez 2 lub 3. Jeśli tak, to liczba nie jest pierwsza.
  
-Dla liczb większych od 3 iterujemy przez potencjalne dzielniki od 5 do √n, sprawdzając liczby w postaci `6k ± 1 (np. 5,7,11,13)`. 
-Liczby w tej postaci to jedyne możliwe kandydaty na dzielniki, ponieważ wszystkie inne są podzielne przez 2 lub 3.
- 
+Dla liczb większych od 3 iterujemy przez potencjalne dzielniki od 5 do √n.
+
 **Przykład działania algorytmu:**
 
 Dla liczby n = 97:
@@ -56,23 +55,24 @@ Dla liczby n = 97:
 
 Na czym polega rozkład na czynniki pierwsze?
 
-Rozkład liczby na czynniki pierwsze polega na znalezieniu takich liczb pierwszych, których iloczyn daje początkową liczbę nn. Proces ten jest iteracyjny: dzielimy liczbę przez jej najmniejszy dzielnik pierwszy, aż do uzyskania wyniku 1.
+Rozkład liczby na czynniki pierwsze polega na znalezieniu takich liczb pierwszych, których iloczyn daje początkową liczbę n. Proces ten jest iteracyjny: dzielimy liczbę przez jej najmniejszy dzielnik pierwszy, aż do uzyskania wyniku 1.
 
 **Przykład:**
 
 Dla n = 84:
 
-- Najmniejszy dzielnik to 22, dzielimy 84/2 = 42.
-- Ponownie dzielimy przez 22, otrzymując 42/2 = 21.
-- Następny dzielnik to 33, dzielimy 21/3 = 7.
-- Pozostaje liczba 77, która jest pierwsza. Rozkład: 2×2×3×7 
+- Najmniejszy dzielnik to 2, dzielimy 84/2 = 42.
+- Ponownie dzielimy przez 2, otrzymując 42/2 = 21.
+- Następny dzielnik to 3, dzielimy 21/3 = 7.
+- Pozostaje liczba 7, która jest pierwsza. Rozkład: 2×2×3×7 
 
 ### Algorytm krok po kroku
-	Sprawdzamy, czy liczba n jest podzielna przez 2. Jeśli tak, zapisujemy 2 jako czynnik i dzielimy n przez 2, aż n przestanie być podzielne przez 2.
+Sprawdzamy, czy liczba n jest podzielna przez 2. 
+Jeśli tak, zapisujemy 2 jako czynnik i dzielimy n przez 2, aż n przestanie być podzielne przez 2.
  
-	Następnie iterujemy przez liczby pierwsze od 3 do √n, zapisując każdy dzielnik jako czynnik i dzieląc n przez niego, aż n przestanie być podzielne.
+Następnie iterujemy przez liczby pierwsze od 3 do √n, zapisując każdy dzielnik jako czynnik i dzieląc n przez niego, aż n przestanie być podzielne.
  
-	Jeśli po zakończeniu iteracji n > 1, oznacza to, że pozostała liczba n jest pierwsza.
+Jeśli po zakończeniu iteracji n > 1, oznacza to, że pozostała liczba n jest pierwsza.
  
 **Przykład działania algorytmu:**
 
@@ -129,37 +129,56 @@ Jeśli d1 > √n, to d2 < √n. Dlatego wystarczy sprawdzić dzielniki do **√n
 Badanie pierwszości:
 ```python
 def is_prime(n):
+    #Liczby mniejsze lub równe 1 nie są pierwsze
     if n <= 1:
         return False
+    # 2 i 3 są liczbami pierwszymi
     if n <= 3:
         return True
+    #Liczby podzielne przez 2 lub 3 są złożone
     if n % 2 == 0 or n % 3 == 0:
         return False
+    #Sprawdzanie dzielników od 5 do √n
     i = 5
-    while i * i <= n:
+    while i * i <= n:   #czynnik*czynnik <= n
         if n % i == 0 or n % (i + 2) == 0:
             return False
         i += 6
     return True
+
+
+if __name__ == "__main__":
+    number = int(input("Podaj liczbę, aby sprawdzić, czy jest pierwsza: "))
+    if is_prime(number):
+        print(f"Liczba {number} jest liczbą pierwszą.")
+    else:
+        print(f"Liczba {number} jest liczbą złożoną.")
 ```
 
 Rozkład na czynniki pierwsze:
 ```python
 def prime_factors(n):
     factors = []
-    # Sprawdzanie dzielnika 2
+    #Sprawdzanie dzielnika 2
     while n % 2 == 0:
         factors.append(2)
         n //= 2
-    # Sprawdzanie kolejnych dzielników
+    #Sprawdzanie kolejnych dzielników
     for i in range(3, int(n**0.5) + 1, 2):
         while n % i == 0:
             factors.append(i)
             n //= i
-    # Jeśli pozostała wartość jest liczbą pierwszą
+    #Jeśli pozostałość jest liczbą pierwszą
     if n > 1:
         factors.append(n)
     return factors
+
+if __name__ == "__main__":
+    number = int(input("Podaj liczbę, którą chcesz rozłożyć na czynniki pierwsze: "))
+    #Rozkład na czynniki pierwsze
+    factors = prime_factors(number)
+    print(f"Czynniki pierwsze liczby {number} to: {factors}")
+
 ```
 
 ### 6. Podsumowanie
