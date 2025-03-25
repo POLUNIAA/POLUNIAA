@@ -55,7 +55,7 @@ Dla liczby n = 97:
 
 Na czym polega rozkład na czynniki pierwsze?
 
-Rozkład liczby na czynniki pierwsze polega na znalezieniu takich liczb pierwszych, których iloczyn daje początkową liczbę n. Proces ten jest iteracyjny: dzielimy liczbę przez jej najmniejszy dzielnik pierwszy, aż do uzyskania wyniku 1.
+Rozkład liczby na czynniki pierwsze polega na znalezieniu takich liczb pierwszych, których iloczyn daje początkową liczbę n. Proces ten jest **iteracyjny**: dzielimy liczbę przez jej najmniejszy dzielnik pierwszy, aż do uzyskania wyniku 1.
 
 **Przykład:**
 
@@ -97,22 +97,22 @@ Wzorcowa złożoność algorytmu jest
 gdzie n to rozkładana liczba. 
 Rozłożenie liczby na czynniki pierwsze, inaczej faktoryzacja tej liczby, polega na przedstawieniu jej w postaci iloczynu liczb pierwszych. 
 
-	Najmniejszy możliwy czynnik pierwszy to liczba 2, ponieważ jest to najmniejsza liczba pierwsza i taką wartość początkową ustawiamy dla zmiennej czynnik (*),
-	algorytm wykonujemy tak długo, jak długo
+	Najmniejszy możliwy czynnik pierwszy to liczba 2, ponieważ jest to najmniejsza liczba pierwsza 
+ 	i taką wartość początkową ustawiamy dla zmiennej czynnik (*), algorytm wykonujemy tak długo, jak długo
  
  					czynnik * czynnik <= liczba
 
 
-	Jeśli liczba n ma dzielnik większy od 1, to co najmniej jeden z dzielników d spełnia d ≤ √n. Dzięki temu wystarczy sprawdzić dzielniki tylko do √n, zamiast wszystkich do n − 1.
+	Jeśli liczba n ma dzielnik większy od 1, to co najmniej jeden z dzielników d spełnia d ≤ √n. Dzięki temu 
+ 	wystarczy sprawdzić dzielniki tylko do √n, zamiast wszystkich do n − 1.
 	Dla rozkładu na czynniki pierwsze, za każdym razem redukujemy n, co również ogranicza liczbę operacji.
  
-**Przykład porównania:**
+**Ważne**
 
-Dla n = 10^6:
 
 - Sprawdzanie wszystkich dzielników O(n): wymaga miliona operacji.
  
-- Sprawdzanie dzielników do √n(O(√n)): wymaga około tysiąca operacji.
+- Sprawdzanie dzielników do √n (O(√n)): wymaga około tysiąca operacji.
 
 ---
 
@@ -129,16 +129,12 @@ Jeśli d1 > √n, to d2 < √n. Dlatego wystarczy sprawdzić dzielniki do **√n
 Badanie pierwszości:
 ```python
 def is_prime(n):
-    #Liczby mniejsze lub równe 1 nie są pierwsze
     if n <= 1:
         return False
-    # 2 i 3 są liczbami pierwszymi
     if n <= 3:
         return True
-    #Liczby podzielne przez 2 lub 3 są złożone
     if n % 2 == 0 or n % 3 == 0:
         return False
-    #Sprawdzanie dzielników od 5 do √n
     i = 5
     while i * i <= n:   #czynnik*czynnik <= n
         if n % i == 0 or n % (i + 2) == 0:
@@ -159,23 +155,19 @@ Rozkład na czynniki pierwsze:
 ```python
 def prime_factors(n):
     factors = []
-    #Sprawdzanie dzielnika 2
     while n % 2 == 0:
         factors.append(2)
         n //= 2
-    #Sprawdzanie kolejnych dzielników
     for i in range(3, int(n**0.5) + 1, 2):
         while n % i == 0:
             factors.append(i)
             n //= i
-    #Jeśli pozostałość jest liczbą pierwszą
     if n > 1:
         factors.append(n)
     return factors
 
 if __name__ == "__main__":
     number = int(input("Podaj liczbę, którą chcesz rozłożyć na czynniki pierwsze: "))
-    #Rozkład na czynniki pierwsze
     factors = prime_factors(number)
     print(f"Czynniki pierwsze liczby {number} to: {factors}")
 
@@ -183,4 +175,8 @@ if __name__ == "__main__":
 
 ### 6. Podsumowanie
 Opisane algorytmy są efektywne, proste w implementacji i mają szerokie zastosowanie w praktyce. Ich złożoność O(√n) czyni je idealnymi dla większości przypadków użycia, gdzie liczba n jest relatywnie niewielka. Dla dużych liczb, np. w kryptografii, stosuje się bardziej zaawansowane metody, takie jak testy probabilistyczne i algorytmy faktoryzacji.
+
+### Zadanka
+1. Wypisz wszystkie liczby pierwsze w zakresie (8,58).
+2. Znajdź największy czynnik pierwszy liczby **13195**
 
